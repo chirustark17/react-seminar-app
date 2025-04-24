@@ -2,24 +2,21 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [todo, setTodo] = useState(""); // State to store the new todo input
-  const [todos, setTodos] = useState([]); // State to store all the todos
+  const [todo, setTodo] = useState("");
+  const [todos, setTodos] = useState([]);
 
-  // Function to handle adding a new todo
   const addTodo = () => {
     if (todo.trim()) {
-      setTodos([...todos, todo]); // Add new todo to the list
-      setTodo(""); // Clear the input field after adding
+      setTodos([...todos, todo]);
+      setTodo("");
     }
   };
 
-  // Function to handle removing a todo
   const removeTodo = (index) => {
-    const newTodos = todos.filter((_, i) => i !== index); // Remove todo by index
-    setTodos(newTodos); // Update the todo list
+    const newTodos = todos.filter((_, i) => i !== index);
+    setTodos(newTodos);
   };
 
-  // Function to handle Enter key press
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       addTodo();
@@ -29,39 +26,55 @@ function App() {
   return (
     <div className="App">
       <div className="todo-container">
-        <h1>To-Do List</h1>
-
-        {/* Input field to add a new todo */}
-        <div className="input-container">
-          <input
-            type="text"
-            value={todo}
-            onChange={(e) => setTodo(e.target.value)} // Update todo state on input change
-            onKeyPress={handleKeyPress} // Add todo on Enter key
-            placeholder="Enter a new task..."
-          />
-          <button onClick={addTodo} disabled={!todo.trim()}>
-            Add
-          </button>
-        </div>
-
-        {/* Displaying the todo list */}
-        <ul className="todo-list">
-          {todos.map((todo, index) => (
-            <li key={index} className="todo-item">
-              <span>{todo}</span>
+        <h1 className="app-title">Vivid Todo</h1>
+        <div className="todo-wrapper">
+          {/* Left Side: Input Section with Local Image */}
+          <div className="input-section">
+            <img
+              src="/images/todo.jpg"
+              alt="Todo Banner"
+              className="banner-image"
+            />
+            <h2 className="section-title">Add Task</h2>
+            <div className="input-container">
+              <input
+                type="text"
+                value={todo}
+                onChange={(e) => setTodo(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Enter a new task..."
+                className="todo-input"
+              />
               <button
-                onClick={() => removeTodo(index)} // Remove todo on button click
-                className="delete-btn"
+                onClick={addTodo}
+                disabled={!todo.trim()}
+                className="add-btn"
               >
-                Delete
+                Add
               </button>
-            </li>
-          ))}
-        </ul>
-        {todos.length === 0 && (
-          <p className="empty-message">No tasks yet. Add one!</p>
-        )}
+            </div>
+          </div>
+          {/* Right Side: Todo List */}
+          <div className="list-section">
+            <h2 className="section-title">Your Tasks</h2>
+            <ul className="todo-list">
+              {todos.map((todo, index) => (
+                <li key={index} className="todo-item slide-in">
+                  <span>{todo}</span>
+                  <button
+                    onClick={() => removeTodo(index)}
+                    className="delete-btn"
+                  >
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </ul>
+            {todos.length === 0 && (
+              <p className="empty-message">No tasks yet. Add one to start!</p>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
