@@ -28,13 +28,8 @@ function App() {
       <div className="todo-container">
         <h1 className="app-title">Vivid Todo</h1>
         <div className="todo-wrapper">
-          {/* Left Side: Input Section with Local Image */}
+          {/* Left Side: Input Section */}
           <div className="input-section">
-            <img
-              src="/images/todo.jpg"
-              alt="Todo Banner"
-              className="banner-image"
-            />
             <h2 className="section-title">Add Task</h2>
             <div className="input-container">
               <input
