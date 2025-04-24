@@ -1,11 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-/* General Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Main App Layout */
 .App {
   font-family: 'Poppins', sans-serif;
   width: 100vw;
   height: 100vh;
-  background: url("C:\Users\chira\OneDrive\Pictures\Screenshots\fullstack\web development\seminar\todo.jpg") no-repeat center center fixed;
+  background: url("/todo.jpg") no-repeat center center fixed;
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -13,6 +24,7 @@
   padding: 20px;
 }
 
+/* Main Container */
 .todo-container {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
@@ -26,6 +38,7 @@
   flex-direction: column;
 }
 
+/* App Title */
 .app-title {
   font-size: 2.8rem;
   font-weight: 700;
@@ -35,16 +48,17 @@
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Two Column Layout */
+/* Layout */
 .todo-wrapper {
   display: flex;
   gap: 30px;
   flex: 1;
+  flex-wrap: wrap;
 }
 
 .input-section,
 .list-section {
-  flex: 1;
+  flex: 1 1 45%;
   display: flex;
   flex-direction: column;
 }
@@ -56,7 +70,7 @@
   margin-bottom: 15px;
 }
 
-/* Input Styles */
+/* Input */
 .input-container {
   display: flex;
   flex-direction: column;
@@ -98,13 +112,14 @@
   cursor: not-allowed;
 }
 
-/* Todo List Styles */
+/* Todo List */
 .todo-list {
   list-style: none;
   padding: 0;
   margin: 0;
   overflow-y: auto;
   flex: 1;
+  max-height: 60vh;
 }
 
 .todo-item {
@@ -128,6 +143,7 @@
   font-size: 1rem;
   color: #2d3748;
   flex: 1;
+  word-break: break-word;
 }
 
 .delete-btn {
@@ -146,7 +162,7 @@
   transform: scale(1.05);
 }
 
-/* Empty Message */
+/* Empty State */
 .empty-message {
   text-align: center;
   font-size: 1rem;
@@ -154,7 +170,7 @@
   margin-top: 10px;
 }
 
-/* Slide In Animation */
+/* Animation */
 @keyframes slideIn {
   from {
     transform: translateY(30px);
@@ -174,5 +190,35 @@
 @media (max-width: 768px) {
   .todo-wrapper {
     flex-direction: column;
+  }
+
+  .input-section,
+  .list-section {
+    flex: 1 1 100%;
+  }
+
+  .app-title {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .todo-container {
+    padding: 20px;
+  }
+
+  .todo-input,
+  .add-btn {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  .delete-btn {
+    font-size: 0.8rem;
+    padding: 6px 10px;
   }
 }

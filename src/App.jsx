@@ -2,23 +2,18 @@ import React, { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [todoText, setTodoText] = useState("");
+  const [task, setTask] = useState("");
   const [todos, setTodos] = useState([]);
 
-  const handleAddTodo = () => {
-    if (!todoText.trim()) return;
-
-    const newTodo = {
-      id: Date.now(),
-      text: todoText.trim(),
-    };
-
-    setTodos(prev => [...prev, newTodo]);
-    setTodoText("");
+  const handleAdd = () => {
+    if (task.trim()) {
+      setTodos([{ id: Date.now(), text: task.trim() }, ...todos]);
+      setTask("");
+    }
   };
 
-  const handleDeleteTodo = (id) => {
-    setTodos(prev => prev.filter(todo => todo.id !== id));
+  const handleDelete = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   return (
@@ -28,19 +23,19 @@ function App() {
         <div className="todo-wrapper">
           {/* Input Section */}
           <div className="input-section">
-            <h2 className="section-title">Add New Task</h2>
+            <h2 className="section-title">Add Task</h2>
             <div className="input-container">
               <input
                 type="text"
-                placeholder="Enter a todo..."
+                value={task}
+                onChange={(e) => setTask(e.target.value)}
                 className="todo-input"
-                value={todoText}
-                onChange={(e) => setTodoText(e.target.value)}
+                placeholder="Enter a new task..."
               />
               <button
+                onClick={handleAdd}
                 className="add-btn"
-                onClick={handleAddTodo}
-                disabled={!todoText.trim()}
+                disabled={!task.trim()}
               >
                 Add
               </button>
@@ -49,24 +44,24 @@ function App() {
 
           {/* List Section */}
           <div className="list-section">
-            <h2 className="section-title">Your Tasks</h2>
-            {todos.length === 0 ? (
-              <p className="empty-message">No tasks added yet!</p>
-            ) : (
-              <ul className="todo-list">
-                {todos.map((todo) => (
+            <h2 className="section-title">Tasks</h2>
+            <ul className="todo-list">
+              {todos.length === 0 ? (
+                <p className="empty-message">No tasks added yet.</p>
+              ) : (
+                todos.map((todo) => (
                   <li key={todo.id} className="todo-item slide-in">
                     <span>{todo.text}</span>
                     <button
                       className="delete-btn"
-                      onClick={() => handleDeleteTodo(todo.id)}
+                      onClick={() => handleDelete(todo.id)}
                     >
                       Delete
                     </button>
                   </li>
-                ))}
-              </ul>
-            )}
+                ))
+              )}
+            </ul>
           </div>
         </div>
       </div>
