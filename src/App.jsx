@@ -1,70 +1,53 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [task, setTask] = useState("");
-  const [todos, setTodos] = useState([]);
+  const [todo, setTodo] = useState(""); // State to store the new todo input
+  const [todos, setTodos] = useState([]); // State to store all the todos
 
-  const handleAdd = () => {
-    if (task.trim()) {
-      setTodos([{ id: Date.now(), text: task.trim() }, ...todos]);
-      setTask("");
+  // Function to handle adding a new todo
+  const addTodo = () => {
+    if (todo) {
+      setTodos([...todos, todo]); // Add new todo to the list
+      setTodo(""); // Clear the input field after adding
     }
   };
 
-  const handleDelete = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+  // Function to handle removing a todo
+  const removeTodo = (index) => {
+    const newTodos = todos.filter((_, i) => i !== index); // Remove todo by index
+    setTodos(newTodos); // Update the todo list
   };
 
   return (
     <div className="App">
-      <div className="todo-container">
-        <h1 className="app-title">Todo List</h1>
-        <div className="todo-wrapper">
-          {/* Input Section */}
-          <div className="input-section">
-            <h2 className="section-title">Add Task</h2>
-            <div className="input-container">
-              <input
-                type="text"
-                value={task}
-                onChange={(e) => setTask(e.target.value)}
-                className="todo-input"
-                placeholder="Enter a new task..."
-              />
-              <button
-                onClick={handleAdd}
-                className="add-btn"
-                disabled={!task.trim()}
-              >
-                Add
-              </button>
-            </div>
-          </div>
+      <h1>To-Do List</h1>
 
-          {/* List Section */}
-          <div className="list-section">
-            <h2 className="section-title">Tasks</h2>
-            <ul className="todo-list">
-              {todos.length === 0 ? (
-                <p className="empty-message">No tasks added yet.</p>
-              ) : (
-                todos.map((todo) => (
-                  <li key={todo.id} className="todo-item slide-in">
-                    <span>{todo.text}</span>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(todo.id)}
-                    >
-                      Delete
-                    </button>
-                  </li>
-                ))
-              )}
-            </ul>
-          </div>
-        </div>
+      {/* Input field to add a new todo */}
+      <div className="input-container">
+        <input
+          type="text"
+          value={todo}
+          onChange={(e) => setTodo(e.target.value)} // Update todo state on input change
+          placeholder="Enter a new task..."
+        />
+        <button onClick={addTodo}>Add</button>
       </div>
+
+      {/* Displaying the todo list */}
+      <ul className="todo-list">
+        {todos.map((todo, index) => (
+          <li key={index} className="todo-item">
+            <span>{todo}</span>
+            <button
+              onClick={() => removeTodo(index)} // Remove todo on button click
+              className="delete-btn"
+            >
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
