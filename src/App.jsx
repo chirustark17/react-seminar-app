@@ -7,7 +7,7 @@ function App() {
 
   // Function to handle adding a new todo
   const addTodo = () => {
-    if (todo) {
+    if (todo.trim()) {
       setTodos([...todos, todo]); // Add new todo to the list
       setTodo(""); // Clear the input field after adding
     }
@@ -19,35 +19,50 @@ function App() {
     setTodos(newTodos); // Update the todo list
   };
 
+  // Function to handle Enter key press
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      addTodo();
+    }
+  };
+
   return (
     <div className="App">
-      <h1>To-Do List</h1>
+      <div className="todo-container">
+        <h1>To-Do List</h1>
 
-      {/* Input field to add a new todo */}
-      <div className="input-container">
-        <input
-          type="text"
-          value={todo}
-          onChange={(e) => setTodo(e.target.value)} // Update todo state on input change
-          placeholder="Enter a new task..."
-        />
-        <button onClick={addTodo}>Add</button>
+        {/* Input field to add a new todo */}
+        <div className="input-container">
+          <input
+            type="text"
+            value={todo}
+            onChange={(e) => setTodo(e.target.value)} // Update todo state on input change
+            onKeyPress={handleKeyPress} // Add todo on Enter key
+            placeholder="Enter a new task..."
+          />
+          <button onClick={addTodo} disabled={!todo.trim()}>
+            Add
+          </button>
+        </div>
+
+        {/* Displaying the todo list */}
+        <ul className="todo-list">
+          {todos.map((todo, index) => (
+            <li key={index} className="todo-item">
+              <span>{todo}</span>
+              <button
+                onClick={() => removeTodo(index)} // Remove todo on button click
+                className="delete-btn"
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+        {todos.length === 0 && (
+          <p className="empty-message">No tasks yet. Add one!</p>
+        )}
       </div>
-
-      {/* Displaying the todo list */}
-      <ul className="todo-list">
-        {todos.map((todo, index) => (
-          <li key={index} className="todo-item">
-            <span>{todo}</span>
-            <button
-              onClick={() => removeTodo(index)} // Remove todo on button click
-              className="delete-btn"
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }
