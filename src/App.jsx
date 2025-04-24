@@ -1,73 +1,69 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
+  const [input, setInput] = useState("");
 
-  const addTodo = () => {
-    if (todo.trim()) {
-      setTodos([...todos, todo]);
-      setTodo("");
+  const handleAddTodo = () => {
+    if (input.trim() !== "") {
+      const newTodo = { id: Date.now(), text: input.trim() };
+      setTodos([...todos, newTodo]);
+      setInput("");
     }
   };
 
-  const removeTodo = (index) => {
-    const newTodos = todos.filter((_, i) => i !== index);
-    setTodos(newTodos);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      addTodo();
-    }
+  const handleDelete = (id) => {
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(updatedTodos);
   };
 
   return (
     <div className="App">
       <div className="todo-container">
-        <h1 className="app-title">Vivid Todo</h1>
+        <h1 className="app-title">📝 Vivid Todo</h1>
         <div className="todo-wrapper">
-          {/* Left Side: Input Section */}
-          <div className="input-section">
+          {/* Left Column - Add Task */}
+          <div className="input-section slide-in">
             <h2 className="section-title">Add Task</h2>
             <div className="input-container">
               <input
                 type="text"
-                value={todo}
-                onChange={(e) => setTodo(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Enter a new task..."
+                placeholder="Enter task..."
                 className="todo-input"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
               />
               <button
-                onClick={addTodo}
-                disabled={!todo.trim()}
                 className="add-btn"
+                onClick={handleAddTodo}
+                disabled={!input.trim()}
               >
-                Add
+                Add Task
               </button>
             </div>
           </div>
-          {/* Right Side: Todo List */}
-          <div className="list-section">
-            <h2 className="section-title">Your Tasks</h2>
+
+          {/* Right Column - Your Tasks */}
+          <div className="list-section slide-in">
+            <h2 className="section-title">Your Tasks ({todos.length})</h2>
             <ul className="todo-list">
-              {todos.map((todo, index) => (
-                <li key={index} className="todo-item slide-in">
-                  <span>{todo}</span>
-                  <button
-                    onClick={() => removeTodo(index)}
-                    className="delete-btn"
-                  >
-                    Delete
-                  </button>
-                </li>
-              ))}
+              {todos.length > 0 ? (
+                todos.map((todo) => (
+                  <li key={todo.id} className="todo-item">
+                    <span>{todo.text}</span>
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(todo.id)}
+                    >
+                      Delete
+                    </button>
+                  </li>
+                ))
+              ) : (
+                <p className="empty-message">No tasks added yet</p>
+              )}
             </ul>
-            {todos.length === 0 && (
-              <p className="empty-message">No tasks yet. Add one to start!</p>
-            )}
           </div>
         </div>
       </div>
