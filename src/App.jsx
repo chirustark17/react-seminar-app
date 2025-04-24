@@ -1,51 +1,49 @@
-import { useState } from 'react';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
 
 function App() {
-  // State to store the input task text
-  const [task, setTask] = useState('');
+  const [todo, setTodo] = useState(""); // State to store the new todo input
+  const [todos, setTodos] = useState([]); // State to store all the todos
 
-  // State to store the list of tasks
-  const [todos, setTodos] = useState([]);
-
-  // Function to handle adding a new task
-  const handleAdd = () => {
-    if (task.trim() !== '') {
-      // Add task to list and reset input field
-      setTodos([...todos, task]);
-      setTask('');
+  // Function to handle adding a new todo
+  const addTodo = () => {
+    if (todo) {
+      setTodos([...todos, todo]); // Add new todo to the list
+      setTodo(""); // Clear the input field after adding
     }
   };
 
-  // Function to delete a task by index
-  const handleDelete = (index) => {
-    const updatedTodos = todos.filter((_, i) => i !== index);
-    setTodos(updatedTodos);
+  // Function to handle removing a todo
+  const removeTodo = (index) => {
+    const newTodos = todos.filter((_, i) => i !== index); // Remove todo by index
+    setTodos(newTodos); // Update the todo list
   };
 
   return (
-    <div className="container">
-      <h1>📝 My Todo App</h1>
+    <div className="App">
+      <h1>To-Do List</h1>
 
-      {/* Input section for adding tasks */}
-      <div className="input-section">
+      {/* Input field to add a new todo */}
+      <div className="input-container">
         <input
           type="text"
-          placeholder="Enter a task..."
-          value={task}
-          onChange={(e) => setTask(e.target.value)} // Update task state on change
+          value={todo}
+          onChange={(e) => setTodo(e.target.value)} // Update todo state on input change
+          placeholder="Enter a new task..."
         />
-        <button onClick={handleAdd}>Add Task</button>
+        <button onClick={addTodo}>Add</button>
       </div>
 
-      {/* Displaying list of tasks */}
+      {/* Displaying the todo list */}
       <ul className="todo-list">
-        {todos.map((item, index) => (
-          <li key={index}>
-            {item}
-            {/* Delete button for each task */}
-            <button className="delete-btn" onClick={() => handleDelete(index)}>
-              ❌
+        {todos.map((todo, index) => (
+          <li key={index} className="todo-item">
+            <span>{todo}</span>
+            <button
+              onClick={() => removeTodo(index)} // Remove todo on button click
+              className="delete-btn"
+            >
+              Delete
             </button>
           </li>
         ))}
