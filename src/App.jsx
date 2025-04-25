@@ -1,92 +1,45 @@
-
-import React, { useState } from "react"; // Import React and useState hook
-import "./App.css"; // Import styling
+import React from 'react';
+import { useState } from 'react'
 
 function App() {
-  // State for the current input task
-  const [task, setTask] = useState("");
-
-  // State for the list of todos (array of objects)
-  const [todos, setTodos] = useState([]);
-
-  // Function to handle adding a new task
-  const handleAdd = () => {
-    if (task.trim()) {
-      // Add new task to the beginning of the list
-      setTodos([{ id: Date.now(), text: task.trim() }, ...todos]);
-      // Clear the input field
-      setTask("");
+  const [cart,setCart]=useState([])
+  const productarr=[
+    {name:"Pen",price:20,stock:"available",image:""},
+    {name:"Book",price:25,stock:"available",image:""},
+    {name:"Tape",price:5,stock:"available",image:""},
+    {name:"Geometry Box",price:45,stock:"available",image:""},
+    ]
+    const addToCart=(product)=>{
+        setCart(prev=>[...prev,productarr])
     }
-  };
-
-  // Function to delete a task by ID
-  const handleDelete = (id) => {
-    // Filter out the task with the given ID
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
-
-  return (
-    <div className="App">
-      <div className="todo-container">
-        {/* App Title */}
-        <h1 className="app-title">Todo List</h1>
-
-        {/* Wrapper for two columns: input and list */}
-        <div className="todo-wrapper">
-          
-          {/* Input Section - left column */}
-          <div className="input-section">
-            <h2 className="section-title">Add Task</h2>
-            <div className="input-container">
-              {/* Input field to type new task */}
-              <input
-                type="text"
-                value={task}
-                onChange={(e) => setTask(e.target.value)}
-                className="todo-input"
-                placeholder="Enter a new task..."
-              />
-              {/* Add Button - disabled if input is empty */}
-              <button
-                onClick={handleAdd}
-                className="add-btn"
-                disabled={!task.trim()}
-              >
-                Add
-              </button>
-            </div>
-          </div>
-
-          {/* List Section - right column */}
-          <div className="list-section">
-            <h2 className="section-title">Tasks</h2>
-
-            {/* Todo List */}
-            <ul className="todo-list">
-              {/* If list is empty, show message */}
-              {todos.length === 0 ? (
-                <p className="empty-message">No tasks added yet.</p>
-              ) : (
-                // Render each todo item with delete button
-                todos.map((todo) => (
-                  <li key={todo.id} className="todo-item slide-in">
-                    <span>{todo.text}</span>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(todo.id)}
-                    >
-                      Delete
-                    </button>
-                  </li>
-                ))
-              )}
-            </ul>
-          </div>
-
-        </div>
+  const disp=productarr.map(prod=>(
+      <div key={prod.name}>
+        <h1>{prod.name}</h1>
+        <p>{prod.price}</p>
+        <p>{prod.stock}</p>
+        <button onClick={addToCart.bind(null,prod)}>Add to cart</button>
       </div>
+    ))
+    const dispCart=cart.map(cartItem=>(
+        <div key={key.name} style={{display:"flex",justifyContent:"space-between"}}>
+        <p><b>
+          
+        {prod.name}
+        </b>
+        </p>
+        <p>{prod.price}</p>
+        <p>{prod.stock}</p>
+          
+        </div>
+      ))
+      console.log(cart)
+  return (
+    <div>
+      <h1>Cart</h1>
+      {dispCart}
+      {disp}
     </div>
-  );
+  )
 }
 
-export default App; // Export the App component
+export default App
